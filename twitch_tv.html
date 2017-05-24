@@ -4,36 +4,28 @@
 	<title></title>
 </head>
 <body>
+	<input type="text" id="searchTerm" name="">
+
 	<script>
+	//https://api.twitch.tv/kraken/streams/freecodecamp?client_id=asc37vyh8ry55180oyme87wu31srns
 
-		var list = document.getElementById('demo');
-		var searchTermElement = document.getElementById('searchTerm');
-		var searchForm = document.getElementById('searchForm');
+	var searchTermElement = document.getElementById('searchTerm');
 
-		searchTermElement.addEventListener('keypress', function(evt){
-			console.log(evt);
-			if (evt.keyCode == 13 || evt.keyCode == 13) {
-				console.log(evt);
-				evt.preventDefault(); 
-			} else {console.log(evt.keyCode);}
-		}, false);
+	searchTermElement.addEventListener('keypress', function(evt){
+		console.log(evt);
+		if (evt.keyCode == 13 || evt.keyCode == 13) {
+			evt.preventDefault(); 
+			fetchSearchResults(this.value);
+		} else {console.log(evt.keyCode);}
+	}, false);
 
-function fetchSearchResults(){
-	fetch('https://en.wikipedia.org/w/api.php?action=query&format=json&prop=extracts&generator=search&exlimit=10&exsentences=6&exintro=1&explaintext=1&gsrsearch=' + searchTerm.innerText).then(function(response) {
-		return response.json();
-	}).then(function(response){
-		var result = response['query']['pages'];
-		console.log(result)
-		Object.keys(result).forEach(function(item){
-				//console.log(result[item]['extract'])
-				var entry = document.createElement('li');
-				entry.appendChild(document.createTextNode(result[item]['title']));
-				list.appendChild(entry);
-				console.log(result[item]['title'])
-			})
-	});
-}
+	function fetchSearchResults(searchTerm){
+		fetch('https://api.twitch.tv/kraken/users/freecodecamp?client_id=asc37vyh8ry55180oyme87wu31srns').then(function(response) {
+			return response.json();
+		}).then(function(response){
+			console.log(response)
+		})
+	};		
 </script>
-
 </body>
 </html>
