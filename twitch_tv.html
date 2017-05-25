@@ -5,9 +5,25 @@
 </head>
 <body>
 	<input type="text" id="searchTerm" name="">
+	<select id="numberOfSearchElements">
+		<option value="1" selected>1</option>
+		<option value="2">2</option>
+		<option value="3">3</option>
+		<option value="4">4</option>
+		<option value="5">5</option>
+	</select>
 
 	<script>
 	//https://api.twitch.tv/kraken/streams/freecodecamp?client_id=asc37vyh8ry55180oyme87wu31srns
+	//https://api.twitch.tv/kraken/users/freecodecamp?client_id=asc37vyh8ry55180oyme87wu31srns'
+	var numberOfSearchElements = document.getElementById('numberOfSearchElements');
+	numberOfSearchElements.addEventListener('change', changeEventHandler, false);
+
+	function changeEventHandler(event) {
+	    //if(!event.target.value){ console.log('Please Select One');}
+	    //else {console.log('You like number ' + event.target.value);} 
+	    console.log(numberOfSearchElements.value)
+	}
 
 	var searchTermElement = document.getElementById('searchTerm');
 
@@ -15,12 +31,13 @@
 		console.log(evt);
 		if (evt.keyCode == 13 || evt.keyCode == 13) {
 			evt.preventDefault(); 
-			fetchSearchResults(this.value);
+			console.log(numberOfSearchElements.value)
+			fetchSearchResults(this.value, numberOfSearchElements.value);
 		} else {console.log(evt.keyCode);}
 	}, false);
 
-	function fetchSearchResults(searchTerm){
-		fetch('https://api.twitch.tv/kraken/users/freecodecamp?client_id=asc37vyh8ry55180oyme87wu31srns').then(function(response) {
+	function fetchSearchResults(searchTerm, limit){
+		fetch('https://api.twitch.tv/api/cs?limit=' + limit + '&offset=0&csgo.map=&order=channel_count&on_site=1&client_id=asc37vyh8ry55180oyme87wu31srns').then(function(response) {
 			return response.json();
 		}).then(function(response){
 			console.log(response)
